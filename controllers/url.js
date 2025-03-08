@@ -1,7 +1,7 @@
-const shortid = require("shortid");
+const {nanoid} = require("nanoid");
 const URL = require('../models/url')
 async function handleGenerateNewShortURL(req , res){
-    const shortID = shortid();
+    const shortID = nanoid(8);
     const body = req.body;
     // console.log(shortID);
 
@@ -11,8 +11,10 @@ async function handleGenerateNewShortURL(req , res){
         shortId : shortID,
         redirectURL : body.url,
         visitHistory : [],
+        createdBy: req.user._id,
    });
 
+    return res.render('home',{id : shortID})
     return res.json({id : shortID})
 }
 
